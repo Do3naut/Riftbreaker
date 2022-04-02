@@ -5,10 +5,13 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D levelRb;
-    
+
+    [Header("Movement")]
+    BoxCollider2D collider;
     Rigidbody2D rb;
     [SerializeField] float jumpHeight = 15f;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float teleportDistance = 5f;
 
     // Experimental movement
     bool inControl = true;
@@ -19,6 +22,7 @@ public class CharacterController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -61,15 +65,33 @@ public class CharacterController : MonoBehaviour
                 canWallJump = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift))  // Dash
+        if (Input.GetKeyDown(KeyCode.LeftShift))  // Dash-jump
         {
             rb.velocity = Vector2.zero;
             levelRb.AddForce(new Vector2(directionx, 0) * 10f, ForceMode2D.Impulse);
             rb.AddForce(new Vector2(0, directiony) * 10f, ForceMode2D.Impulse);
         }
+        if (Input.GetKeyDown(KeyCode.RightShift))  // Teleport
+        {
+            Teleport();
+        }
         float dir = facingLeft ? -1f : 1f;
         levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
         rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
+    }
+
+    void Teleport()
+    {
+        float tpDist = teleportDistance;  
+        Transform levelTr = levelRb.gameObject.transform;
+        if (facingLeft)  // Teleport left 
+        {
+            levelTr.position += Vector3.left * tpDist;
+        }
+        else  // Teleport right 
+        {
+            levelTr.position += Vector3.right * tpDist;
+        }
     }
 
     bool IsGrounded()
