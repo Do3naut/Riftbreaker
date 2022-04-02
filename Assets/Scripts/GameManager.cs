@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] float startingSpeed = 100f;
-    [SerializeField] GameObject playerSprite;
     float speedScore;
     int difficulty;
     // Start is called before the first frame update

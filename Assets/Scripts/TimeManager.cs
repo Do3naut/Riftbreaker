@@ -5,11 +5,11 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     [SerializeField]
-    public float slowTime;
+    public float slowTime = 0.5f;
     [SerializeField]
-    public float slowdownLength;
+    public float slowdownLength = 1.1f;
     [SerializeField]
-    public float normalTime;
+    public float normalTime = 1f;
 
     bool changedTime = false;
     bool startChange = false;
