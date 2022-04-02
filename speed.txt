@@ -1,0 +1,19 @@
+﻿Speed
+
+
+Stop moving = not stonks
+Parkour off obstacles = stonks
+
+
+Speed enables certain actions: attacks, wall breaking, etc.
+Wall breaking warps you into a parallel reality with no obstacles
+Short teleport that costs speed
+
+
+Work out audio implementation (Unity native)
+
+
+Lore: 
+Something electric
+* Kinetic energy keeps you stable, but you are running from a time loop and if you stop, you will be warped back to the start (die) 
+   * Some reason that you are trying to escape your current reality.

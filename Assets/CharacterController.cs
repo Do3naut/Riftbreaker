@@ -24,42 +24,27 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // BasicMove();
         FancyMove();
     }
 
-    // Handles the elementary logic for moving and jumping
-    void BasicMove()
-    {
-        float direction = Input.GetAxisRaw("Horizontal");
-        if (direction > 0)
-        {
-            facingLeft = false;
-        } 
-        else if (direction < 0)
-        {
-            facingLeft = true;
-        }
-        rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);  // Modifies x velocity directly.
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())  // Jump 
-        {
-            rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
-        }
-    }
-
-    // EXPERIMENTAL: Force-based movement, for dashes and whatnot
+    // Force-based movement, for dashes and whatnot
     void FancyMove()
     {
         float directionx = Input.GetAxis("Horizontal");
         float directiony = Input.GetAxis("Vertical");
         // Define player's ability to change velocity
-        inControl = IsGrounded();  // TODO: Make this assign the DI Threshold
-        // TODO: Use deceleration instead of instant velocity reset when grounded
+        inControl = IsGrounded();  // TODO: Make this assign the DI Threshold (deprecated)
 
         if (inControl)
         {
-            rb.velocity = new Vector2(directionx * moveSpeed, rb.velocity.y);  // Modifies x velocity directly.
-            
+            if (directionx > 0)  // The design of this game will require this to be removed in the future
+            {
+                facingLeft = false;
+            }
+            else if (directionx < 0)
+            {
+                facingLeft = true;
+            }
         } else
         {
             if (directionx * rb.velocity.x < DIThreshold)  // Setting a DI threshold
@@ -72,13 +57,14 @@ public class CharacterController : MonoBehaviour
             if (IsGrounded())
             {
                 rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
-                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 75f);
+                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 5f);
             } 
             else if (canWallJump)
             {
-                float horiVel = facingLeft ? -jumpHeight / 2 : jumpHeight / 2;
+                float horiVel = facingLeft ? jumpHeight / 2 : -jumpHeight / 2;
                 rb.AddForce(new Vector2(horiVel, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump
-                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 75f);
+                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 5f);  // tiny DI
+                facingLeft = !facingLeft;
                 canWallJump = false;
             }
         }
@@ -87,7 +73,8 @@ public class CharacterController : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(directionx, directiony) * 10f, ForceMode2D.Impulse);
         }
-
+        float dir = facingLeft ? -1f : 1f;
+        rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);  // Modifies x velocity directly.
     }
 
     bool IsGrounded()
