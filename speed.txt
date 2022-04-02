@@ -17,3 +17,11 @@ Lore:
 Something electric
 * Kinetic energy keeps you stable, but you are running from a time loop and if you stop, you will be warped back to the start (die) 
    * Some reason that you are trying to escape your current reality.
+
+Assets 
+
+Jumping (whoosh sound)
+Enemy defeat (fizzing out)
+Player taking damage
+Teleporting (hopefully 2 variants, one more intense than the other - not a priority)
+
