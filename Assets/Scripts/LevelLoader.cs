@@ -15,10 +15,10 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // leftSect = (GameObject) Instantiate(Stages[0], new Vector3(-50f, 0f, 0f), Quaternion.identity, gameObject.transform);
+        leftSect = (GameObject) Instantiate(Stages[0], new Vector3(-50f, 0f, 0f), Quaternion.identity, gameObject.transform);
         midSect = (GameObject) Instantiate(Stages[0], new Vector3(0f, 0f, 0f), Quaternion.identity, gameObject.transform);
-        rightSect = (GameObject) Instantiate(Stages[0], new Vector3(50f, 0f, 0f), Quaternion.identity, gameObject.transform);
-        loadedLevels.Add((GameObject) Instantiate(Stages[0], new Vector3(-50f, 0f, 0f), Quaternion.identity, gameObject.transform));
+        rightSect = (GameObject) Instantiate(Stages[Mathf.RoundToInt(Random.Range(0, loadedLevels.Count - 1))], new Vector3(50f, 0f, 0f), Quaternion.identity, gameObject.transform);
+        loadedLevels.Add(leftSect);
         loadedLevels.Add(midSect);
         loadedLevels.Add(rightSect);
     }
@@ -39,14 +39,15 @@ public class LevelLoader : MonoBehaviour
         {
             Destroy(loadedLevels[0]);
             loadedLevels.RemoveAt(0);
-            loadedLevels.Add((GameObject) Instantiate(Stages[0], gameObject.transform, false));
+            Debug.Log(Random.Range(0, loadedLevels.Count));
+            loadedLevels.Add((GameObject) Instantiate(Stages[Random.Range(0, loadedLevels.Count)], gameObject.transform, false));
             RearrangeStage();
         }
         if (transform.position.x >= 50f)
         {
             Destroy(loadedLevels[loadedLevels.Count - 1]);
             loadedLevels.RemoveAt(loadedLevels.Count - 1);
-            loadedLevels.Insert(0, (GameObject)Instantiate(Stages[0], gameObject.transform, false));
+            loadedLevels.Insert(0, (GameObject)Instantiate(Stages[Random.Range(0, loadedLevels.Count)], gameObject.transform, false));
             RearrangeStage();
         }
     }

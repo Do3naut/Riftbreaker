@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] float jumpHeight = 15f;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float speedCap = 30f;
     [SerializeField] float teleportDistance = 5f;
 
     // Experimental movement
@@ -49,6 +50,8 @@ public class CharacterController : MonoBehaviour
             {
                 facingLeft = false;
             }
+            if (moveSpeed < speedCap)
+                moveSpeed += 0.05f;
         }
         if (Input.GetKeyDown(KeyCode.Space))  // Jump 
         {
