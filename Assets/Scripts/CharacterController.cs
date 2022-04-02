@@ -15,6 +15,11 @@ public class CharacterController : MonoBehaviour
     bool canWallJump = false;
     bool facingLeft = true;
 
+
+    //Time Stuff
+
+    [SerializeField] TimeManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +30,8 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
         FancyMove();
+
+        CheckTime();
     }
 
     // Force-based movement, for dashes and whatnot
@@ -90,4 +97,14 @@ public class CharacterController : MonoBehaviour
     {
         canWallJump = false;
     }
+
+    void CheckTime()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            gameManager.ToggleSlowMotion();
+        }
+    }
+
+
 }
