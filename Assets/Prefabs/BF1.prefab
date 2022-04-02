@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8055203855836661730}
   - component: {fileID: 8055203855836661733}
   - component: {fileID: 8055203855836661732}
-  - component: {fileID: 8055203855836661731}
   m_Layer: 6
   m_Name: Obstacle 3
   m_TagString: Jumpable
@@ -110,27 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203855836661731
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203855836661729}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &8055203855853171155
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +156,6 @@ GameObject:
   - component: {fileID: 8055203856120271551}
   - component: {fileID: 8055203856120271522}
   - component: {fileID: 8055203856120271521}
-  - component: {fileID: 8055203856120271520}
   m_Layer: 6
   m_Name: Obstacle 4
   m_TagString: Jumpable
@@ -277,27 +254,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203856120271520
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203856120271550}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &8055203856167636220
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +265,6 @@ GameObject:
   - component: {fileID: 8055203856167636221}
   - component: {fileID: 8055203856167636222}
   - component: {fileID: 8055203856167636192}
-  - component: {fileID: 8055203856167636223}
   m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
@@ -408,27 +363,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203856167636223
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203856167636220}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &8055203856429036394
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +374,6 @@ GameObject:
   - component: {fileID: 8055203856429036395}
   - component: {fileID: 8055203856429036398}
   - component: {fileID: 8055203856429036397}
-  - component: {fileID: 8055203856429036396}
   m_Layer: 6
   m_Name: Roof
   m_TagString: Untagged
@@ -539,27 +472,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203856429036396
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203856429036394}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &8055203856622355266
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +483,6 @@ GameObject:
   - component: {fileID: 8055203856622355267}
   - component: {fileID: 8055203856622355270}
   - component: {fileID: 8055203856622355269}
-  - component: {fileID: 8055203856622355268}
   m_Layer: 6
   m_Name: Obstacle 1
   m_TagString: Jumpable
@@ -670,27 +581,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203856622355268
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203856622355266}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &8055203857441363107
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,7 +592,6 @@ GameObject:
   - component: {fileID: 8055203857441363108}
   - component: {fileID: 8055203857441363111}
   - component: {fileID: 8055203857441363110}
-  - component: {fileID: 8055203857441363109}
   m_Layer: 6
   m_Name: Obstacle 2
   m_TagString: Jumpable
@@ -801,24 +690,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &8055203857441363109
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055203857441363107}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

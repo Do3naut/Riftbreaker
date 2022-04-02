@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D levelRb;
+    
     Rigidbody2D rb;
     [SerializeField] float jumpHeight = 15f;
     [SerializeField] float moveSpeed = 5f;
 
     // Experimental movement
     bool inControl = true;
-    [SerializeField] const float directionalInfluence = 0.05f;
-    [SerializeField] float DIThreshold = 0;
     bool canWallJump = false;
     bool facingLeft = true;
 
@@ -39,17 +39,11 @@ public class CharacterController : MonoBehaviour
         {
             if (directionx > 0)  // The design of this game will require this to be removed in the future
             {
-                facingLeft = false;
+                facingLeft = true;
             }
             else if (directionx < 0)
             {
-                facingLeft = true;
-            }
-        } else
-        {
-            if (directionx * rb.velocity.x < DIThreshold)  // Setting a DI threshold
-            {
-                rb.AddForce(new Vector2(directionx * directionalInfluence, 0), ForceMode2D.Impulse);  // DI
+                facingLeft = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))  // Jump 
@@ -57,13 +51,12 @@ public class CharacterController : MonoBehaviour
             if (IsGrounded())
             {
                 rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
-                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 5f);
             } 
             else if (canWallJump)
             {
                 float horiVel = facingLeft ? jumpHeight / 2 : -jumpHeight / 2;
-                rb.AddForce(new Vector2(horiVel, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump
-                DIThreshold = Mathf.Abs(rb.velocity.x) + (directionalInfluence * 5f);  // tiny DI
+                levelRb.AddForce(new Vector2(horiVel, 0), ForceMode2D.Impulse); // Wall jump
+                rb.AddForce(new Vector2(0, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump
                 facingLeft = !facingLeft;
                 canWallJump = false;
             }
@@ -71,10 +64,12 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))  // Dash
         {
             rb.velocity = Vector2.zero;
-            rb.AddForce(new Vector2(directionx, directiony) * 10f, ForceMode2D.Impulse);
+            levelRb.AddForce(new Vector2(directionx, 0) * 10f, ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0, directiony) * 10f, ForceMode2D.Impulse);
         }
         float dir = facingLeft ? -1f : 1f;
-        rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);  // Modifies x velocity directly.
+        levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
+        rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
     }
 
     bool IsGrounded()
@@ -85,7 +80,7 @@ public class CharacterController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Jumpable")
+        if (collision.collider.CompareTag("Jumpable"))
         {
             Debug.Log("Can wallhop!");
             canWallJump = true;
