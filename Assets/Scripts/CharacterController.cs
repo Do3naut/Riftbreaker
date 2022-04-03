@@ -45,6 +45,8 @@ public class CharacterController : MonoBehaviour
     bool inControl = true;
     bool canWallJump = false;
     bool facingLeft = true;
+    bool phasing = false;
+    float gravscale = 0;
 
 
     //Time Stuff
@@ -72,7 +74,7 @@ public class CharacterController : MonoBehaviour
     {
         FancyMove();
 
-        CheckTime();
+        if (!phasing) { CheckTime(); }
 
         doDeathTimer();
     }
@@ -98,7 +100,7 @@ public class CharacterController : MonoBehaviour
             if (moveSpeed < speedCap && !inBulletTime)
                 moveSpeed += 0.05f;
         }
-        if (Input.GetKeyDown(KeyCode.Space))  // Jump 
+        if (Input.GetKeyDown(KeyCode.Space) && !phasing)  // Jump 
         {
             if (IsGrounded())
             {
@@ -121,10 +123,24 @@ public class CharacterController : MonoBehaviour
             rb.AddForce(new Vector2(0, directiony) * 10f, ForceMode2D.Impulse);
         }
         */
-        if (Input.GetKeyDown(KeyCode.LeftShift))  // Teleport
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !phasing)  // Teleport
         {
             Teleport();
         }
+
+        // Phasing
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            if (!phasing)
+            {
+                StartPhase();
+            } else
+            {
+                EndPhase();
+            }
+        }
+
         float dir = facingLeft ? -1f : 1f;
         levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
         rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
@@ -167,7 +183,23 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    
+    void StartPhase()
+    {
+        // To stop slow motion / bullet time
+        gameManager.StopSlowMotion();
+        inBulletTime = false;
+        phasing = true;
+        gravscale = rb.gravityScale;
+        rb.gravityScale = 0;
+        boxCollider.enabled = false;
+    }
+
+    void EndPhase()
+    {
+        phasing = false;
+        rb.gravityScale = gravscale;
+        boxCollider.enabled = true;
+    }
 
     void Teleport()
     {
