@@ -902,6 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelRb: {fileID: 1267972935}
   speedUI: {fileID: 796141143}
+  globalPostProcess: {fileID: 1611912955}
   playerDisplay: {fileID: 278189065}
   jumpHeight: 17
   moveSpeed: 10

@@ -8,7 +8,10 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] private SpeedUI speedUI;
 
+    [SerializeField] PostProcess globalPostProcess;
+
     [SerializeField] private GameObject playerDisplay;
+
     private SpriteRenderer playerSprite;
     private Animator anim;
 
@@ -191,7 +194,9 @@ public class CharacterController : MonoBehaviour
         phasing = true;
         gravscale = rb.gravityScale;
         rb.gravityScale = 0;
+        rb.velocity = new Vector2(rb.velocity.x, 0);
         boxCollider.enabled = false;
+        globalPostProcess.GrayShift();
     }
 
     void EndPhase()
@@ -199,6 +204,7 @@ public class CharacterController : MonoBehaviour
         phasing = false;
         rb.gravityScale = gravscale;
         boxCollider.enabled = true;
+        globalPostProcess.WhiteShift();
     }
 
     void Teleport()
@@ -265,10 +271,6 @@ public class CharacterController : MonoBehaviour
         moveSpeed -= toSubtract;
     }
 
-    private void Phase()
-    {
-
-    }
 
     private void doDeathTimer()
     {
