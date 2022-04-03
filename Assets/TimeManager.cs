@@ -11,6 +11,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField]
     public float normalTime;
 
+    [SerializeField] PostProcess postProcess;
+
     bool changedTime = false;
     bool startChange = false;
 
@@ -41,6 +43,7 @@ public class TimeManager : MonoBehaviour
 
         changedTime = !changedTime;
         startChange = true;
+        postProcess.toggleShift();
 
     }
     // Start is called before the first frame update
