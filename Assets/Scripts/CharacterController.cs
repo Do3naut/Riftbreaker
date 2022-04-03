@@ -13,7 +13,7 @@ public class CharacterController : MonoBehaviour
     private Animator anim;
 
     [Header("Movement")]
-    BoxCollider2D collider;
+    BoxCollider2D boxCollider;
     Rigidbody2D rb;
     [SerializeField] float jumpHeight = 15f;
     [SerializeField] float moveSpeed = 5f;
@@ -56,7 +56,7 @@ public class CharacterController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         playerSprite = playerDisplay.GetComponent<SpriteRenderer>();
         anim = playerDisplay.GetComponent<Animator>();
         costScalingFactor = 1;
@@ -113,13 +113,15 @@ public class CharacterController : MonoBehaviour
                 canWallJump = false;
             }
         }
+        /*
         if (Input.GetKeyDown(KeyCode.LeftShift))  // Dash-jump
         {
             rb.velocity = Vector2.zero;
             levelRb.AddForce(new Vector2(directionx, 0) * 10f, ForceMode2D.Impulse);
             rb.AddForce(new Vector2(0, directiony) * 10f, ForceMode2D.Impulse);
         }
-        if (Input.GetKeyDown(KeyCode.RightShift))  // Teleport
+        */
+        if (Input.GetKeyDown(KeyCode.LeftShift))  // Teleport
         {
             Teleport();
         }
