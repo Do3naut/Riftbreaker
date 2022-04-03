@@ -916,6 +916,8 @@ MonoBehaviour:
   deathTimerStart: 30
   timerSpeedThreshold: 15
   gameManager: {fileID: 2081392485}
+  phaseCooldown: 10
+  phaseMaxDuration: 3
 --- !u!61 &1137399527
 BoxCollider2D:
   m_ObjectHideFlags: 0

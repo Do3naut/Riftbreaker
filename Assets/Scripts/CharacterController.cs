@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float scaleDecreaseRate;
 
 
+
     private float costScalingFactor;
 
     [Header("Death Timer")]
@@ -57,6 +58,14 @@ public class CharacterController : MonoBehaviour
     [SerializeField] TimeManager gameManager;
 
     private bool inBulletTime;
+
+
+    //phasing timer
+    [Header("Phase stuff")]
+    [SerializeField] float phaseCooldown;
+    [SerializeField] float phaseMaxDuration;
+    bool canPhase;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +77,7 @@ public class CharacterController : MonoBehaviour
         speedUI.setScaleFactor(costScalingFactor);
         speedUI.setSpeed(0);
         inBulletTime = false;
-
+        canPhase = true;
         deathTimer = deathTimerStart;
     }
 
@@ -135,10 +144,10 @@ public class CharacterController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightShift))
         {
-            if (!phasing)
+            if (!phasing && canPhase && moveSpeed >= speedCap)
             {
                 StartPhase();
-            } else
+            } else if (phasing)
             {
                 EndPhase();
             }
@@ -197,6 +206,8 @@ public class CharacterController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, 0);
         boxCollider.enabled = false;
         globalPostProcess.GrayShift();
+        StartCoroutine(PhaseEndTimer());
+        canPhase = false;
     }
 
     void EndPhase()
@@ -205,6 +216,7 @@ public class CharacterController : MonoBehaviour
         rb.gravityScale = gravscale;
         boxCollider.enabled = true;
         globalPostProcess.WhiteShift();
+        StartCoroutine(PhaseCooldownTimer());
     }
 
     void Teleport()
@@ -293,7 +305,18 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    IEnumerator PhaseCooldownTimer()
+    {
+        yield return new WaitForSeconds(phaseCooldown);
+        canPhase = true;
+    }
 
+
+    IEnumerator PhaseEndTimer()
+    {
+        yield return new WaitForSeconds(phaseMaxDuration);
+        EndPhase();
+    }
 
 
 }

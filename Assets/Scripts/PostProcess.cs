@@ -12,7 +12,6 @@ public class PostProcess : MonoBehaviour
     bool shiftToBlue = false;
     bool shiftToGray = false;
     bool shift = false;
-    bool phase = false;
 
 
     // Start is called before the first frame update
