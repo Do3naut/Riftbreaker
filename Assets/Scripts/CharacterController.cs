@@ -8,6 +8,10 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] private SpeedUI speedUI;
 
+    [SerializeField] private GameObject playerDisplay;
+    private SpriteRenderer playerSprite;
+    private Animator anim;
+
     [Header("Movement")]
     BoxCollider2D collider;
     Rigidbody2D rb;
@@ -45,6 +49,8 @@ public class CharacterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
+        playerSprite = playerDisplay.GetComponent<SpriteRenderer>();
+        anim = playerDisplay.GetComponent<Animator>();
         costScalingFactor = 1;
         speedUI.setScaleFactor(costScalingFactor);
         speedUI.setSpeed(0);
@@ -108,6 +114,14 @@ public class CharacterController : MonoBehaviour
         float dir = facingLeft ? -1f : 1f;
         levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
         rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
+
+        if (facingLeft) 
+        {
+            playerSprite.flipX = false;
+        } else
+        {
+            playerSprite.flipX = true;
+        }
 
         speedUI.setSpeed(moveSpeed);
         
