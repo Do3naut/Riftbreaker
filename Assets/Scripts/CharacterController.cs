@@ -6,6 +6,8 @@ public class CharacterController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D levelRb;
 
+    [SerializeField] private SpeedUI speedUI;
+
     [Header("Movement")]
     BoxCollider2D collider;
     Rigidbody2D rb;
@@ -88,6 +90,8 @@ public class CharacterController : MonoBehaviour
         float dir = facingLeft ? -1f : 1f;
         levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
         rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
+
+        speedUI.setSpeed(moveSpeed);
     }
 
     void Teleport()
