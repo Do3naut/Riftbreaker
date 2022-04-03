@@ -151,7 +151,23 @@ public class CharacterController : MonoBehaviour
             gameManager.ToggleSlowMotion();
             inBulletTime = false;
         }
+
+        // Animations
+        
+        if (canWallJump)
+        {
+            anim.Play("WallHang");
+        } else if (!inControl)
+        {
+            anim.Play("Airborne");
+        } else
+        {
+            anim.Play("Run");
+        }
+
     }
+
+    
 
     void Teleport()
     {
