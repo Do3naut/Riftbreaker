@@ -43,6 +43,11 @@ public class PostProcess : MonoBehaviour
             else if(shiftToBlue)
             {
                 color.colorFilter.value.r -= (shiftSpeed * Time.unscaledDeltaTime);
+                color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
+                if(color.saturation.value > 1)
+                {
+                    color.saturation.value = 1;
+                }
                 if(color.colorFilter.value.r < redMin)
                 {
                     color.colorFilter.value.r = redMin;
