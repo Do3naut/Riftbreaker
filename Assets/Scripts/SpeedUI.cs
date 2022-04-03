@@ -7,12 +7,15 @@ public class SpeedUI : MonoBehaviour
 {
 
     [SerializeField] public Text playerSpeed;
+    [SerializeField] public Text scalingFactor;
     private float currentSpeed;
+    private float currentScaleFactor;
 
     // Start is called before the first frame update
     void Start()
     {
         currentSpeed = 0;
+        currentScaleFactor = 1;
     }
 
     // Update is called once per frame
@@ -21,8 +24,12 @@ public class SpeedUI : MonoBehaviour
         
     }
 
-    
-    public bool addSpeed(int toAdd)
+    public void setScaleFactor(float scale)
+    {
+        currentScaleFactor = scale;
+        scalingFactor.text = "Scaling Factor: " + currentScaleFactor; 
+    }
+    public bool addSpeed(float toAdd)
     {
         currentSpeed += toAdd;
         playerSpeed.text = "Speed: " + currentSpeed;

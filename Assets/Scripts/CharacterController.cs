@@ -16,6 +16,16 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float speedCap = 30f;
     [SerializeField] float teleportDistance = 5f;
 
+    [Header("Ability Costs")]
+    [SerializeField] float teleportSpeedCost;
+
+    [SerializeField] float bulletTimeSpeedCost;
+
+    [SerializeField] float scaleDecreaseRate;
+
+    private float costScalingFactor;
+
+
     // Experimental movement
     bool inControl = true;
     bool canWallJump = false;
@@ -31,6 +41,9 @@ public class CharacterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
+        costScalingFactor = 1;
+        speedUI.setScaleFactor(costScalingFactor);
+        speedUI.setSpeed(0);
     }
 
     // Update is called once per frame
@@ -92,10 +105,19 @@ public class CharacterController : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
 
         speedUI.setSpeed(moveSpeed);
+        
+        if (costScalingFactor > 1)
+        {
+            costScalingFactor -= scaleDecreaseRate * Time.deltaTime;
+            speedUI.setScaleFactor(costScalingFactor);
+        }
+        
     }
 
     void Teleport()
     {
+        if (moveSpeed < teleportSpeedCost * costScalingFactor)
+            return;
         float tpDist = teleportDistance;  
         Transform levelTr = levelRb.gameObject.transform;
         if (facingLeft)  // Teleport left 
@@ -106,6 +128,9 @@ public class CharacterController : MonoBehaviour
         {
             levelTr.position += Vector3.right * tpDist;
         }
+        moveSpeed -= teleportSpeedCost * costScalingFactor;
+        costScalingFactor += .5f;
+        speedUI.setScaleFactor(costScalingFactor);
     }
 
     bool IsGrounded()
