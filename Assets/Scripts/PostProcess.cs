@@ -10,7 +10,9 @@ public class PostProcess : MonoBehaviour
     private ColorGrading color;
 
     bool shiftToBlue = false;
+    bool shiftToGray = false;
     bool shift = false;
+    bool phase = false;
 
 
     // Start is called before the first frame update
@@ -27,7 +29,18 @@ public class PostProcess : MonoBehaviour
     {
         if(shift)
         {
-            if(shiftToBlue)
+            if(shiftToGray)
+            {
+                color.saturation.value -= (shiftSpeed * Time.unscaledDeltaTime * 30);
+                {
+                    if(color.saturation.value < -100f)
+                    {
+                    color.saturation.value = -100f;
+                    shift = false;
+                    }
+                }
+            }
+            else if(shiftToBlue)
             {
                 color.colorFilter.value.r -= (shiftSpeed * Time.unscaledDeltaTime);
                 if(color.colorFilter.value.r < redMin)
@@ -38,14 +51,26 @@ public class PostProcess : MonoBehaviour
             }
             else
             {
+                color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
                 color.colorFilter.value.r += (shiftSpeed * Time.unscaledDeltaTime);
                 if(color.colorFilter.value.r > 1)
                 {
                     color.colorFilter.value.r = 1;
-                    shift = false;
                 }
+                if(color.saturation.value > 1)
+                {
+                    color.saturation.value = 1;
+                }
+                if(color.colorFilter.value.r > 1 && color.saturation.value > 1)
+                    shift = false;
             }
         }
+    }
+
+    public void GrayShift()
+    {
+        shiftToGray = true;
+        shift = true;
     }
 
     public void BlueShift()
@@ -56,6 +81,7 @@ public class PostProcess : MonoBehaviour
     public void WhiteShift()
     {
         shiftToBlue = false;
+        shiftToGray = false;
         shift = true;
     }
 

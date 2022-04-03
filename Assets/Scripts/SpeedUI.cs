@@ -53,7 +53,6 @@ public class SpeedUI : MonoBehaviour
     public bool setDeathTimer(float time, bool isDecreasing, bool powerUp=false)
     {
         deathTimerValue = time;
-        Debug.Log(deathTimerValue);
         deathTimer.text = "death: " + deathTimerValue;
         return true;
     }
