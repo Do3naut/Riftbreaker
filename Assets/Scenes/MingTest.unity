@@ -399,6 +399,7 @@ MonoBehaviour:
   Stages:
   - {fileID: 8055203855853171155, guid: 1f28876e51dd3404888d42b8b883caa2, type: 3}
   - {fileID: 7297831486270551675, guid: c92e0610b6ab4b049a9602b5a3a8e040, type: 3}
+  - {fileID: 23158591023760566, guid: bbffba2dec5b16743898c6224a47b6bc, type: 3}
 --- !u!1 &1269248839
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +513,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingSpeed: 100
-  playerSprite: {fileID: 0}
 --- !u!4 &2145810666
 Transform:
   m_ObjectHideFlags: 0
