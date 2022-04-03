@@ -8,14 +8,19 @@ public class SpeedUI : MonoBehaviour
 
     [SerializeField] public Text playerSpeed;
     [SerializeField] public Text scalingFactor;
+
+    [SerializeField] public Text deathTimer;
     private float currentSpeed;
     private float currentScaleFactor;
+
+    private float deathTimerValue;
 
     // Start is called before the first frame update
     void Start()
     {
         currentSpeed = 0;
         currentScaleFactor = 1;
+        deathTimerValue = 0f;
     }
 
     // Update is called once per frame
@@ -44,4 +49,13 @@ public class SpeedUI : MonoBehaviour
         playerSpeed.text = "Speed: " + currentSpeed;
         return true;
     }
+
+    public bool setDeathTimer(float time, bool isDecreasing, bool powerUp=false)
+    {
+        deathTimerValue = time;
+        Debug.Log(deathTimerValue);
+        deathTimer.text = "death: " + deathTimerValue;
+        return true;
+    }
+    
 }

@@ -29,7 +29,15 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] float scaleDecreaseRate;
 
+
     private float costScalingFactor;
+
+    [Header("Death Timer")]
+    
+    [SerializeField] float deathTimerStart;
+
+    [SerializeField] float timerSpeedThreshold;
+    private float deathTimer;
 
 
 
@@ -55,6 +63,8 @@ public class CharacterController : MonoBehaviour
         speedUI.setScaleFactor(costScalingFactor);
         speedUI.setSpeed(0);
         inBulletTime = false;
+
+        deathTimer = deathTimerStart;
     }
 
     // Update is called once per frame
@@ -63,6 +73,8 @@ public class CharacterController : MonoBehaviour
         FancyMove();
 
         CheckTime();
+
+        doDeathTimer();
     }
 
     // Force-based movement, for dashes and whatnot
@@ -197,6 +209,29 @@ public class CharacterController : MonoBehaviour
     {
         moveSpeed -= toSubtract;
     }
+
+    private void doDeathTimer()
+    {
+        if (moveSpeed < timerSpeedThreshold)
+        {
+            deathTimer -= Time.deltaTime;
+            speedUI.setDeathTimer(deathTimer, false);
+        }
+        else
+        {
+            deathTimer += Time.deltaTime;
+            speedUI.setDeathTimer(deathTimer, true);
+        }
+
+        
+        if (deathTimer <= 0)
+        {
+            Debug.Log("I have died :(");
+            //call gamemanger death thing here
+        }
+    }
+
+
 
 
 }

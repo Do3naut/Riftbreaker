@@ -30,4 +30,11 @@ public class GameManager : MonoBehaviour
     public void IncreaseDifficulty() { difficulty++; }
     
     public int GetDifficulty() { return difficulty; }
+
+
+    public void killPlayer() 
+    {
+        Debug.Log("Player has now died.");
+        
+    }
 }
