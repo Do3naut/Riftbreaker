@@ -52,5 +52,19 @@ public class TimeManager : MonoBehaviour
         postProcess.toggleShift();
 
     }
+
+    public void StartSlowMotion()
+    {
+        changedTime = true;
+        startChange = true;
+        postProcess.BlueShift();
+    }
+
+    public void StopSlowMotion()
+    {
+        changedTime = false;
+        startChange = true;
+        postProcess.WhiteShift();
+    }
     // Start is called before the first frame update
 }

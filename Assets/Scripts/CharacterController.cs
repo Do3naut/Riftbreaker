@@ -148,7 +148,7 @@ public class CharacterController : MonoBehaviour
         //protects the player from dying to their own slow motion
         if(inBulletTime && (moveSpeed - bulletTimeSpeedCost * Time.deltaTime * costScalingFactor) <= 0)
         {
-            gameManager.ToggleSlowMotion();
+            gameManager.StopSlowMotion();
             inBulletTime = false;
         }
 
@@ -211,8 +211,13 @@ public class CharacterController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            gameManager.ToggleSlowMotion();
-            inBulletTime = !inBulletTime;
+            gameManager.StartSlowMotion();
+            inBulletTime = true;
+        }
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            gameManager.StopSlowMotion();
+            inBulletTime = false;
         }
     }
 
@@ -226,6 +231,11 @@ public class CharacterController : MonoBehaviour
     public void ReduceSpeed(float toSubtract)
     {
         moveSpeed -= toSubtract;
+    }
+
+    private void Phase()
+    {
+
     }
 
     private void doDeathTimer()

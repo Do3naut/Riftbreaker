@@ -48,6 +48,17 @@ public class PostProcess : MonoBehaviour
         }
     }
 
+    public void BlueShift()
+    {
+        shiftToBlue = true;
+        shift = true;
+    }
+    public void WhiteShift()
+    {
+        shiftToBlue = false;
+        shift = true;
+    }
+
     public void toggleShift()
     {
         shiftToBlue = !shiftToBlue;
