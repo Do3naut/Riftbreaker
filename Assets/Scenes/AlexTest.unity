@@ -710,6 +710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelRb: {fileID: 1003749558}
   speedUI: {fileID: 162405186}
+  playerDisplay: {fileID: 1269248839}
   jumpHeight: 16
   moveSpeed: 10
   speedCap: 30
