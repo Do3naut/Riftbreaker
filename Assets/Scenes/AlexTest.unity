@@ -715,7 +715,9 @@ MonoBehaviour:
   speedCap: 30
   teleportDistance: 5
   teleportSpeedCost: 5
-  bulletTimeSpeedCost: 0
+  teleportScaleFactor: 0.5
+  bulletTimeSpeedCost: 5
+  bulletTimeScaleFactor: 0.003
   scaleDecreaseRate: 0.3
   gameManager: {fileID: 2145810667}
 --- !u!61 &805564640
@@ -1071,6 +1073,7 @@ MonoBehaviour:
   slowdownLength: 1.1
   normalTime: 1
   postProcess: {fileID: 285424840}
+  characterController: {fileID: 805564639}
 --- !u!1001 &8055203857879116784
 PrefabInstance:
   m_ObjectHideFlags: 0

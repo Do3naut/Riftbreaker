@@ -13,6 +13,8 @@ public class TimeManager : MonoBehaviour
 
     [SerializeField] PostProcess postProcess;
 
+    [SerializeField] CharacterController characterController;
+
     bool changedTime = false;
     bool startChange = false;
 
@@ -25,6 +27,7 @@ public class TimeManager : MonoBehaviour
                 Time.timeScale -= (1f / slowdownLength) * Time.unscaledDeltaTime;
                 if (Time.timeScale <= slowTime)
                     startChange = false;
+
             }
 
             else  
@@ -37,6 +40,9 @@ public class TimeManager : MonoBehaviour
             Time.timeScale = Mathf.Clamp(Time.timeScale, slowTime, normalTime);
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
         }
+
+        if(changedTime)
+            characterController.BurnTime();
     }
     public void ToggleSlowMotion()
     {

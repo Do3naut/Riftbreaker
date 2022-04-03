@@ -18,12 +18,15 @@ public class CharacterController : MonoBehaviour
 
     [Header("Ability Costs")]
     [SerializeField] float teleportSpeedCost;
+    [SerializeField] float teleportScaleFactor;
 
     [SerializeField] float bulletTimeSpeedCost;
+    [SerializeField] float bulletTimeScaleFactor;
 
     [SerializeField] float scaleDecreaseRate;
 
     private float costScalingFactor;
+
 
 
     // Experimental movement
@@ -36,6 +39,7 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField] TimeManager gameManager;
 
+    private bool inBulletTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +48,7 @@ public class CharacterController : MonoBehaviour
         costScalingFactor = 1;
         speedUI.setScaleFactor(costScalingFactor);
         speedUI.setSpeed(0);
+        inBulletTime = false;
     }
 
     // Update is called once per frame
@@ -72,7 +77,7 @@ public class CharacterController : MonoBehaviour
             {
                 facingLeft = false;
             }
-            if (moveSpeed < speedCap)
+            if (moveSpeed < speedCap && !inBulletTime)
                 moveSpeed += 0.05f;
         }
         if (Input.GetKeyDown(KeyCode.Space))  // Jump 
@@ -112,6 +117,12 @@ public class CharacterController : MonoBehaviour
             speedUI.setScaleFactor(costScalingFactor);
         }
         
+        //protects the player from dying to their own slow motion
+        if(inBulletTime && (moveSpeed - bulletTimeSpeedCost * Time.deltaTime * costScalingFactor) <= 0)
+        {
+            gameManager.ToggleSlowMotion();
+            inBulletTime = false;
+        }
     }
 
     void Teleport()
@@ -129,7 +140,7 @@ public class CharacterController : MonoBehaviour
             levelTr.position += Vector3.right * tpDist;
         }
         moveSpeed -= teleportSpeedCost * costScalingFactor;
-        costScalingFactor += .5f;
+        costScalingFactor += teleportScaleFactor;
         speedUI.setScaleFactor(costScalingFactor);
     }
 
@@ -157,7 +168,20 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             gameManager.ToggleSlowMotion();
+            inBulletTime = !inBulletTime;
         }
+    }
+
+
+    public void BurnTime()
+    {
+        moveSpeed -= bulletTimeSpeedCost * Time.deltaTime * costScalingFactor; //this might need to be unchanged time, idk
+        costScalingFactor += bulletTimeScaleFactor;
+    }
+
+    public void ReduceSpeed(float toSubtract)
+    {
+        moveSpeed -= toSubtract;
     }
 
 
