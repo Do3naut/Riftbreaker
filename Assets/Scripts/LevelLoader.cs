@@ -54,9 +54,6 @@ public class LevelLoader : MonoBehaviour
 
     void RearrangeStage()
     {
-        //leftSect.transform.position = new Vector3(-50f, 0f, 0f);
-        //midSect.transform.position = new Vector3(0f, 0f, 0f);
-        //rightSect.transform.position = new Vector3(50f, 0f, 0f);
         int index = -1;
         transform.position = new Vector3(0f, 0f, transform.position.z);
         foreach (GameObject obj in loadedLevels)  // Should only have 3 items max at any time
