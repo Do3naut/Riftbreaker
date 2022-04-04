@@ -317,7 +317,7 @@ public class CharacterController : MonoBehaviour
             deathTimer -= Time.deltaTime;
             speedUI.setDeathTimer(deathTimer, false);
         }
-        else
+        else if (deathTimer < 60)
         {
             deathTimer += Time.deltaTime;
             speedUI.setDeathTimer(deathTimer, true);
