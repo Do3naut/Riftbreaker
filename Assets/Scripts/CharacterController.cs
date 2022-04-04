@@ -14,6 +14,7 @@ public class CharacterController : MonoBehaviour
 
     private SpriteRenderer playerSprite;
     private Animator anim;
+    private AudioSource jumpSound;
 
     [Header("Movement")]
     BoxCollider2D boxCollider;
@@ -80,6 +81,7 @@ public class CharacterController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         playerSprite = playerDisplay.GetComponent<SpriteRenderer>();
         anim = playerDisplay.GetComponent<Animator>();
+        jumpSound = GameObject.Find("JumpSound").GetComponent<AudioSource>();
         costScalingFactor = 1;
         speedUI.setScaleFactor(costScalingFactor);
         speedUI.setSpeed(0);
@@ -133,9 +135,11 @@ public class CharacterController : MonoBehaviour
                 moveSpeed += 0.5f;
                 facingLeft = !facingLeft;
                 canWallJump = false;
+                jumpSound.Play();
             } else if (IsGrounded())
             {
                 rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
+                jumpSound.Play();
             }
         }
 
@@ -266,7 +270,7 @@ public class CharacterController : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D target = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("Terrain"));
+        RaycastHit2D target = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1.5f, LayerMask.GetMask("Terrain"));
         return (target.collider != null);
     }
 
