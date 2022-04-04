@@ -66,6 +66,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float phaseMaxDuration;
     bool canPhase;
 
+    // Animator
+    public bool animInProgress = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -137,7 +140,8 @@ public class CharacterController : MonoBehaviour
         */
         if (Input.GetKeyDown(KeyCode.LeftShift) && !phasing)  // Teleport
         {
-            Teleport();
+            anim.Play("Teleport");
+            animInProgress = true;
         }
 
         // Phasing
@@ -180,22 +184,25 @@ public class CharacterController : MonoBehaviour
             inBulletTime = false;
         }
 
-        // Animations
-        
-        if (canWallJump)
+        // Looping Animations
+        if (!animInProgress)
         {
-            anim.Play("WallHang");
-        } else if (!inControl)
-        {
-            anim.Play("Airborne");
-        } else
-        {
-            anim.Play("Run");
+            if (canWallJump)
+            {
+                anim.Play("WallHang");
+            }
+            else if (!inControl)
+            {
+                anim.Play("Airborne");
+            }
+            else
+            {
+                anim.Play("Run");
+            }
         }
-
     }
 
-    void StartPhase()
+    public void StartPhase()
     {
         // To stop slow motion / bullet time
         gameManager.StopSlowMotion();
@@ -210,7 +217,7 @@ public class CharacterController : MonoBehaviour
         canPhase = false;
     }
 
-    void EndPhase()
+    public void EndPhase()
     {
         phasing = false;
         rb.gravityScale = gravscale;
@@ -219,7 +226,7 @@ public class CharacterController : MonoBehaviour
         StartCoroutine(PhaseCooldownTimer());
     }
 
-    void Teleport()
+    public void Teleport()
     {
         if (moveSpeed < teleportSpeedCost * costScalingFactor)
             return;
