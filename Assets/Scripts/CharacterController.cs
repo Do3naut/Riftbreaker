@@ -331,7 +331,7 @@ public class CharacterController : MonoBehaviour
         if (deathTimer <= 0)
         {
             Debug.Log("I have died :(");
-            //call gamemanger death thing here
+            GameObject.FindObjectOfType<GameManager>().killPlayer();
         }
     }
 
