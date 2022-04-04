@@ -49,8 +49,11 @@ public class CharacterController : MonoBehaviour
     bool inControl = true;
     bool canWallJump = false;
     bool facingLeft = true;
+    // Phasing
+    bool moveFreeze = false;
     bool phasing = false;
     float gravscale = 0;
+    float xvel = 0;
 
 
     //Time Stuff
@@ -158,8 +161,12 @@ public class CharacterController : MonoBehaviour
         }
 
         float dir = facingLeft ? -1f : 1f;
-        levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
-        rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
+        if (!moveFreeze)
+        {
+            levelRb.velocity = new Vector2(dir * moveSpeed, 0);  // Modifies x velocity directly.
+            rb.velocity = new Vector2(0, rb.velocity.y);  // Modifies x velocity directly.
+        }
+        
 
         if (facingLeft) 
         {
@@ -206,7 +213,8 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void StartPhase()
+    // Turn off bullet time, gravity, save velocity and stop the character before resuming movement after phasing starts
+    public void PreStartPhase()
     {
         // To stop slow motion / bullet time
         gameManager.StopSlowMotion();
@@ -214,7 +222,16 @@ public class CharacterController : MonoBehaviour
         phasing = true;
         gravscale = rb.gravityScale;
         rb.gravityScale = 0;
-        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity = Vector2.zero;
+        xvel = levelRb.velocity.x;
+        levelRb.velocity = Vector2.zero;
+        moveFreeze = true;
+    }
+
+    public void StartPhase()
+    {
+        levelRb.velocity = new Vector2(xvel, 0);
+        moveFreeze = false;
         boxCollider.enabled = false;
         globalPostProcess.GrayShift();
         StartCoroutine(PhaseEndTimer());

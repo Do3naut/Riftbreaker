@@ -16,6 +16,11 @@ public class AnimControl : MonoBehaviour
         player.Teleport();
     }
 
+    void PhasePrep()
+    {
+        player.PreStartPhase();
+    }
+
     void CallStartPhase()
     {
         player.StartPhase();
