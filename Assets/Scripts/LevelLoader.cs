@@ -15,9 +15,9 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        leftSect = (GameObject) Instantiate(Stages[0], new Vector3(-50f, 0f, 0f), Quaternion.identity, gameObject.transform);
+        leftSect = (GameObject) Instantiate(Stages[0], new Vector3(-127f, 0f, 0f), Quaternion.identity, gameObject.transform);
         midSect = (GameObject) Instantiate(Stages[0], new Vector3(0f, 0f, 0f), Quaternion.identity, gameObject.transform);
-        rightSect = (GameObject) Instantiate(Stages[Random.Range(0, Stages.Count)], new Vector3(50f, 0f, 0f), Quaternion.identity, gameObject.transform);
+        rightSect = (GameObject) Instantiate(Stages[Random.Range(0, Stages.Count)], new Vector3(127f, 0f, 0f), Quaternion.identity, gameObject.transform);
         loadedLevels.Add(leftSect);
         loadedLevels.Add(midSect);
         loadedLevels.Add(rightSect);
@@ -35,7 +35,7 @@ public class LevelLoader : MonoBehaviour
         - set position 
         O(undefined) complexity; probably bad but looks nice. Sorry Carey.
          */
-        if (transform.position.x <= -70f)
+        if (transform.position.x <= -127f)
         {
             Destroy(loadedLevels[0]);
             loadedLevels.RemoveAt(0);
@@ -43,7 +43,7 @@ public class LevelLoader : MonoBehaviour
             loadedLevels.Add((GameObject) Instantiate(Stages[Random.Range(0, Stages.Count)], gameObject.transform, false));
             RearrangeStage();
         }
-        if (transform.position.x >= 70f)
+        if (transform.position.x >= 127f)
         {
             Destroy(loadedLevels[loadedLevels.Count - 1]);
             loadedLevels.RemoveAt(loadedLevels.Count - 1);
@@ -58,7 +58,7 @@ public class LevelLoader : MonoBehaviour
         transform.position = new Vector3(0f, 0f, transform.position.z);
         foreach (GameObject obj in loadedLevels)  // Should only have 3 items max at any time
         {
-            obj.transform.position = new Vector3(70f * index, 0f, 0f);
+            obj.transform.position = new Vector3(127f * index, 0f, 0f);
             index++;
         }
         
