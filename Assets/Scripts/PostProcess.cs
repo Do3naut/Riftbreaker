@@ -8,6 +8,7 @@ public class PostProcess : MonoBehaviour
     [SerializeField] float shiftSpeed = 3f;
     public PostProcessVolume volume;
     private ColorGrading color;
+    private Vignette vignette;
 
     bool shiftToBlue = false;
     bool shiftToGray = false;
@@ -18,9 +19,12 @@ public class PostProcess : MonoBehaviour
     void Start()
     {
         volume.profile.TryGetSettings(out color);
+        volume.profile.TryGetSettings(out vignette);
         color.colorFilter.value.b = 1;
         color.colorFilter.value.r = 1;
         color.colorFilter.value.g = 1;
+
+        
     }
 
     // Update is called once per frame
@@ -30,6 +34,7 @@ public class PostProcess : MonoBehaviour
         {
             if(shiftToGray)
             {
+                vignette.intensity.value = Mathf.Clamp(vignette.intensity.value + shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
                 color.saturation.value -= (shiftSpeed * Time.unscaledDeltaTime * 30);
                 {
                     if(color.saturation.value < -100f)
@@ -37,10 +42,17 @@ public class PostProcess : MonoBehaviour
                     color.saturation.value = -100f;
                     shift = false;
                     }
+                    if(vignette.intensity.value > 0.37f)
+                    {
+                    color.saturation.value = 0.37f;
+                    }
                 }
             }
             else if(shiftToBlue)
             {
+                if(vignette.intensity.value > 0)
+                
+                vignette.intensity.value = Mathf.Clamp(vignette.intensity.value - shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
                 color.colorFilter.value.r -= (shiftSpeed * Time.unscaledDeltaTime);
                 color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
                 if(color.saturation.value > 1)
@@ -55,6 +67,8 @@ public class PostProcess : MonoBehaviour
             }
             else
             {
+                if(vignette.intensity.value > 0)
+                vignette.intensity.value = Mathf.Clamp(vignette.intensity.value - shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
                 color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
                 color.colorFilter.value.r += (shiftSpeed * Time.unscaledDeltaTime);
                 if(color.colorFilter.value.r > 1)
