@@ -27,7 +27,7 @@ public class LevelLoader : MonoBehaviour
     void Update()
     {
         /*
-         When LevelBlocks reaches x = -50, 
+         When LevelBlocks reaches x = -70, 
         - deconstruct leftSect, 
         - set midSect to leftSect, 
         - set rightSect to midSect ,
@@ -35,7 +35,7 @@ public class LevelLoader : MonoBehaviour
         - set position 
         O(undefined) complexity; probably bad but looks nice. Sorry Carey.
          */
-        if (transform.position.x <= -50f)
+        if (transform.position.x <= -70f)
         {
             Destroy(loadedLevels[0]);
             loadedLevels.RemoveAt(0);
@@ -43,7 +43,7 @@ public class LevelLoader : MonoBehaviour
             loadedLevels.Add((GameObject) Instantiate(Stages[Random.Range(0, Stages.Count)], gameObject.transform, false));
             RearrangeStage();
         }
-        if (transform.position.x >= 50f)
+        if (transform.position.x >= 70f)
         {
             Destroy(loadedLevels[loadedLevels.Count - 1]);
             loadedLevels.RemoveAt(loadedLevels.Count - 1);
@@ -58,7 +58,7 @@ public class LevelLoader : MonoBehaviour
         transform.position = new Vector3(0f, 0f, transform.position.z);
         foreach (GameObject obj in loadedLevels)  // Should only have 3 items max at any time
         {
-            obj.transform.position = new Vector3(50f * index, 0f, 0f);
+            obj.transform.position = new Vector3(70f * index, 0f, 0f);
             index++;
         }
         
