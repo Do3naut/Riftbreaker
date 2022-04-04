@@ -22,6 +22,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float speedCap = 30f;
     [SerializeField] float teleportDistance = 5f;
+    [SerializeField] float passiveAcceleration = 5f;
 
     [Header("Ability Costs")]
     [SerializeField] float teleportSpeedCost;
@@ -116,31 +117,28 @@ public class CharacterController : MonoBehaviour
                 facingLeft = false;
             }
             if (moveSpeed < speedCap && !inBulletTime)
-                moveSpeed += 0.05f;
+                moveSpeed += passiveAcceleration / 1000;
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && !phasing)  // Jump 
-        {
-            if (IsGrounded())
-            {
-                rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
-            } 
-            else if (canWallJump)
+        { 
+            if (canWallJump)
             {
                 float horiVel = facingLeft ? jumpHeight / 2 : -jumpHeight / 2;
+                // levelRb.velocity = Vector2.zero;
+                if (rb.velocity.y < 0)
+                    rb.velocity = Vector2.zero;
                 levelRb.AddForce(new Vector2(horiVel, 0), ForceMode2D.Impulse); // Wall jump
                 rb.AddForce(new Vector2(0, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump
+                moveSpeed += 0.5f;
                 facingLeft = !facingLeft;
                 canWallJump = false;
+            } else if (IsGrounded())
+            {
+                rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
             }
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.LeftShift))  // Dash-jump
-        {
-            rb.velocity = Vector2.zero;
-            levelRb.AddForce(new Vector2(directionx, 0) * 10f, ForceMode2D.Impulse);
-            rb.AddForce(new Vector2(0, directiony) * 10f, ForceMode2D.Impulse);
-        }
-        */
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && !phasing)  // Teleport
         {
             anim.Play("Teleport");
@@ -268,7 +266,7 @@ public class CharacterController : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D target = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1.2f, LayerMask.GetMask("Terrain"));
+        RaycastHit2D target = Physics2D.Raycast(gameObject.transform.position, Vector2.down, 1.8f, LayerMask.GetMask("Terrain"));
         return (target.collider != null);
     }
 
