@@ -150,10 +150,10 @@ public class CharacterController : MonoBehaviour
         {
             if (!phasing && canPhase && moveSpeed >= speedCap)
             {
-                StartPhase();
+                anim.Play("RiftEnter");
             } else if (phasing)
             {
-                EndPhase();
+                anim.Play("RiftExit");
             }
         }
 
@@ -187,7 +187,11 @@ public class CharacterController : MonoBehaviour
         // Looping Animations
         if (!animInProgress)
         {
-            if (canWallJump)
+            if (phasing)
+            {
+                anim.Play("RiftRun");
+            }
+            else if (canWallJump)
             {
                 anim.Play("WallHang");
             }
@@ -322,7 +326,7 @@ public class CharacterController : MonoBehaviour
     IEnumerator PhaseEndTimer()
     {
         yield return new WaitForSeconds(phaseMaxDuration);
-        EndPhase();
+        anim.Play("RiftExit");
     }
 
 

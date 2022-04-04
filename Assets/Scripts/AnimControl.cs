@@ -16,6 +16,16 @@ public class AnimControl : MonoBehaviour
         player.Teleport();
     }
 
+    void CallStartPhase()
+    {
+        player.StartPhase();
+    }
+
+    void CallEndPhase()
+    {
+        player.EndPhase();
+    }
+
     void StartAnim()
     {
         player.animInProgress = true;
