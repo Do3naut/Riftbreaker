@@ -14,6 +14,8 @@ public class SpeedUI : MonoBehaviour
     [SerializeField] public Text scalingFactor;
     [SerializeField] public TextMeshProUGUI scalingFactor2;
 
+    [SerializeField] public Image scaleImage;
+
     [SerializeField] public Text deathTimer;
     [SerializeField] public TextMeshProUGUI deathTimer2;
 
@@ -39,11 +41,11 @@ public class SpeedUI : MonoBehaviour
         //playerSpeed2.SetText("Speed: " + currentSpeed);
     }
 
-        public bool setSpeed(float speed)
+    public bool setSpeed(float speed)
     {
         currentSpeed = speed;
         //Debug.Log(currentSpeed);
-        this.playerSpeed2.SetText("Speed: " + (Mathf.Round(currentSpeed * 100)) / 100.0);
+        this.playerSpeed2.SetText("Speed " + (Mathf.Round(currentSpeed * 100)) / 100.0);
         return true;
     }
 
@@ -51,21 +53,15 @@ public class SpeedUI : MonoBehaviour
     {
         
         currentScaleFactor = scale;
-        this.scalingFactor2.SetText("Scaling Factor: " + (Mathf.Round(currentScaleFactor * 100)) / 100.0); 
+        Debug.Log(currentScaleFactor);
+        scaleImage.fillAmount = currentScaleFactor/10 - .1f;
+        //this.scalingFactor2.SetText("Scaling Factor " + (Mathf.Round(currentScaleFactor * 100)) / 100.0); 
     }
     public bool addSpeed(float toAdd)
     {
         currentSpeed += toAdd;
-
-        currentSpeed = Mathf.Round(currentSpeed * 100) / 100.0f;
-        if (currentSpeed > 30.00F)
-            Debug.Log("test");
-            currentSpeed = 30.00F;
-            
-            //= Mathf.Clamp(currentSpeed, 0f, 30f);
-        playerSpeed.text = "Speed: " + currentSpeed;
-        if (currentSpeed <= 0)
-            return false;
+        //Debug.Log(currentSpeed);
+        this.playerSpeed2.SetText("Speed " + (Mathf.Round(currentSpeed * 100)) / 100.0);
         return true;
     }
     
@@ -77,6 +73,8 @@ public class SpeedUI : MonoBehaviour
         
         deathTimerValue = time;
         timerImage.fillAmount = deathTimerValue/60;
+    
+        
         this.deathTimer2.SetText("death: " + (Mathf.Round(deathTimerValue * 100)) / 100.0);
         return true;
     }
