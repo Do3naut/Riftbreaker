@@ -51,6 +51,7 @@ public class CharacterController : MonoBehaviour
     bool inControl = true;
     bool canWallJump = false;
     bool facingLeft = true;
+    float collisionPenalty = 0f;
     // Phasing
     bool moveFreeze = false;
     bool phasing = false;
@@ -110,14 +111,14 @@ public class CharacterController : MonoBehaviour
 
         if (inControl)
         {
-            if (directionx > 0)  // The design of this game will require this to be removed in the future
-            {
-                facingLeft = true;
-            }
-            else if (directionx < 0)
-            {
-                facingLeft = false;
-            }
+            //if (directionx > 0)  // The design of this game will require this to be removed in the future
+            //{
+            //    facingLeft = true;
+            //}
+            //else if (directionx < 0)
+            //{
+            //    facingLeft = false;
+            //}
             if (moveSpeed < speedCap && !inBulletTime)
                 moveSpeed += passiveAcceleration / 1000;
         }
@@ -281,10 +282,20 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Can wallhop!");
             canWallJump = true;
         }
+        collisionPenalty = 0f;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("NotObstruction")) return;
+        if (moveSpeed > 5.5f) moveSpeed -= collisionPenalty;
+        else moveSpeed = 5.5f;
+        collisionPenalty += 0.002f;
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         canWallJump = false;
+        collisionPenalty = 0f;
     }
 
     void CheckTime()
