@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+    /*
+     This class controls the time slow effect, as well as applies any necessary Post Processing. Of course, 
+     the methods have to be referenced by other scripts before taking place.
+     */
     [SerializeField]
-    public float slowTime = 0.5f;
+    public float slowTime = 0.5f;  // The threshold for slowed time
     [SerializeField]
-    public float slowdownLength = 1.1f;
+    public float slowdownLength = 1.1f;  // Speed at which time slows
     [SerializeField]
-    public float normalTime = 1f;
+    public float normalTime = 1f;  // Normal timescale
 
-    [SerializeField] PostProcess postProcess;
+    [SerializeField] PostProcess postProcess;  // The post processing object
 
-    [SerializeField] CharacterController characterController;
+    [SerializeField] CharacterController characterController;  // The player
 
     bool changedTime = false;
     bool startChange = false;

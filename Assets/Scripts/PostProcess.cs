@@ -30,11 +30,14 @@ public class PostProcess : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // All post-processing for the scene (Vignette & hue shifting)
         if(shift)
         {
-            if(shiftToGray)
+            if(shiftToGray)  // Grayscale
             {
+                // Vignette - "tunnel vision effect"
                 vignette.intensity.value = Mathf.Clamp(vignette.intensity.value + shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
+                // Saturation goes to 0 to create grayscale effect
                 color.saturation.value -= (shiftSpeed * Time.unscaledDeltaTime * 30);
                 {
                     if(color.saturation.value < -100f)
@@ -48,11 +51,11 @@ public class PostProcess : MonoBehaviour
                     }
                 }
             }
-            else if(shiftToBlue)
+            else if(shiftToBlue)  // Hue shifting towards blue
             {
-                if(vignette.intensity.value > 0)
-                
+                if(vignette.intensity.value > 0)  // Undo any potential vignette remaining from other effects
                 vignette.intensity.value = Mathf.Clamp(vignette.intensity.value - shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
+                // Blue effect: reduce red channel & increase intensity (feel free to tinker with values/colors)
                 color.colorFilter.value.r -= (shiftSpeed * Time.unscaledDeltaTime);
                 color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
                 if(color.saturation.value > 1)
@@ -65,10 +68,11 @@ public class PostProcess : MonoBehaviour
                     shift = false;
                 }
             }
-            else
+            else  // No Post Processing
             {
-                if(vignette.intensity.value > 0)
+                if(vignette.intensity.value > 0)  // Undo vignette
                 vignette.intensity.value = Mathf.Clamp(vignette.intensity.value - shiftSpeed * Time.unscaledDeltaTime * .1f, 0, 0.37f);
+                // Reverse all shift effects
                 color.saturation.value += (shiftSpeed * Time.unscaledDeltaTime * 30);
                 color.colorFilter.value.r += (shiftSpeed * Time.unscaledDeltaTime);
                 if(color.colorFilter.value.r > 1)
@@ -85,6 +89,8 @@ public class PostProcess : MonoBehaviour
         }
     }
 
+
+    // Unity Event Handlers (to be called in the Animator)
     public void GrayShift()
     {
         shiftToGray = true;

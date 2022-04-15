@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D levelRb;
+    /*
+     The player, loving compiled in game jam format, a.k.a. a mess. This class does most of the method calls to
+     the other classes that handle their respective behaviours - kinda like SuperPeachSisters from CS32! Sorry I'll stop.
+     (also yes I recognize CharacterController is a built-in that I overrode fight me) 
+     [Don't be like me I'm a bad example; ^that was a genuine mistake]
+     */
 
-    [SerializeField] private SpeedUI speedUI;
+    // References to other GameObjects. SerializeField is an easy way to reference stuff without much code.
 
-    [SerializeField] PostProcess globalPostProcess;
+    [SerializeField] private Rigidbody2D levelRb;  // The RigidBody for the level. The player does not move horizontally.
 
-    [SerializeField] private GameObject playerDisplay;
+    [SerializeField] private SpeedUI speedUI;  // The UI display for the player's speed
 
+    [SerializeField] PostProcess globalPostProcess;  // Post processing
+
+    [SerializeField] private GameObject playerDisplay;  // The GameObject that actually displays the player sprite
+
+    // References to components of the current GameObject
     private SpriteRenderer playerSprite;
     private Animator anim;
+
+    // The only non-self object referenced by code (due to game jam disorganization)
     private AudioSource jumpSound;
 
     [Header("Movement")]
@@ -36,13 +48,13 @@ public class CharacterController : MonoBehaviour
 
 
 
-    private float costScalingFactor;
+    private float costScalingFactor;  // Abilities cost speed; spamming them will cost exponentially more.
 
     [Header("Death Timer")]
     
-    [SerializeField] float deathTimerStart;
+    [SerializeField] float deathTimerStart;  // Starting timer value
 
-    [SerializeField] float timerSpeedThreshold;
+    [SerializeField] float timerSpeedThreshold;  // The speed threshold where the timer starts ticking down
     private float deathTimer;
 
 
@@ -107,11 +119,11 @@ public class CharacterController : MonoBehaviour
         float directionx = Input.GetAxis("Horizontal");
         float directiony = Input.GetAxis("Vertical");
         // Define player's ability to change velocity
-        inControl = IsGrounded();  // TODO: Make this assign the DI Threshold (deprecated)
+        inControl = IsGrounded(); 
 
         if (inControl)
         {
-            //if (directionx > 0)  // The design of this game will require this to be removed in the future
+            //if (directionx > 0)  // The design of this game will require this to be removed in the future (dev feature)
             //{
             //    facingLeft = true;
             //}
@@ -195,7 +207,7 @@ public class CharacterController : MonoBehaviour
         }
 
         // Looping Animations
-        if (!animInProgress)
+        if (!animInProgress)  // This variable controls if the looping animations can play (to prevent nonlooping ones from being interrupted)
         {
             if (phasing)
             {
@@ -216,16 +228,24 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    // Start phasing implementation (ah, the feature that took so much effort yet is so hard to access in game) [I cri everytiem]
+
+    // The following 3 functions are called by the Animator (RiftEnter & RiftExit)
+
     // Turn off bullet time, gravity, save velocity and stop the character before resuming movement after phasing starts
     public void PreStartPhase()
     {
         // To stop slow motion / bullet time
         gameManager.StopSlowMotion();
         inBulletTime = false;
+        // Inform the other functions that we are phasing
         phasing = true;
+        // Save current gravity scale & set it to 0
         gravscale = rb.gravityScale;
         rb.gravityScale = 0;
+        // Set player velocity to 0 (so we don't glide vertically)
         rb.velocity = Vector2.zero;
+        // Save horizontal velocity and set it to 0
         xvel = levelRb.velocity.x;
         levelRb.velocity = Vector2.zero;
         moveFreeze = true;
@@ -233,23 +253,50 @@ public class CharacterController : MonoBehaviour
 
     public void StartPhase()
     {
+        // Resume horizontal motion 
         levelRb.velocity = new Vector2(xvel, 0);
         moveFreeze = false;
+        // Disable collider (so we phase thru walls)
         boxCollider.enabled = false;
+        // Post Processing for the pizzazz
         globalPostProcess.GrayShift();
+        // Start timer to countdown the time we remain in phase
         StartCoroutine(PhaseEndTimer());
+        // Disable button for phasing
         canPhase = false;
     }
 
     public void EndPhase()
     {
+        // Inform the class that we're out of phasing
         phasing = false;
+        // Restore gravity
         rb.gravityScale = gravscale;
+        // Reenable collider
         boxCollider.enabled = true;
+        // Deduct cost for phasing
         moveSpeed -= 20;
+        // Reset post processing
         globalPostProcess.WhiteShift();
+        // Start cooldown timer to be able to phase again
         StartCoroutine(PhaseCooldownTimer());
     }
+
+    // Coroutines for phase cooldown and phase duration timers. A little overkill...maybe you can change it? [this works pretty well as-is, not actually hinting at changing this]
+
+    IEnumerator PhaseCooldownTimer()
+    {
+        yield return new WaitForSeconds(phaseCooldown);
+        canPhase = true;
+    }
+
+    IEnumerator PhaseEndTimer()
+    {
+        yield return new WaitForSeconds(phaseMaxDuration);
+        anim.Play("RiftExit");
+    }
+
+    // End of phasing implementation
 
     public void Teleport()
     {
@@ -276,6 +323,7 @@ public class CharacterController : MonoBehaviour
         return (target.collider != null);
     }
 
+    // Called once, when 2 colliders make contact
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Jumpable"))
@@ -286,6 +334,7 @@ public class CharacterController : MonoBehaviour
         collisionPenalty = 0f;
     }
 
+    // Called repeatedly while colliders are touching
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag("Jumpable")) return;
@@ -294,12 +343,15 @@ public class CharacterController : MonoBehaviour
         canWallJump = true;
         collisionPenalty += 0.002f;
     }
+
+    // Called once when the 2 colliders part
     private void OnCollisionExit2D(Collision2D collision)
     {
         canWallJump = false;
         collisionPenalty = 0f;
     }
 
+    // Handles bullet time
     void CheckTime()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -344,21 +396,8 @@ public class CharacterController : MonoBehaviour
         if (deathTimer <= 0)
         {
             Debug.Log("I have died :(");
-            GameObject.FindObjectOfType<GameManager>().killPlayer();
+            GameObject.FindObjectOfType<GameManager>().killPlayer();  // Finds the GameManager to end the game
         }
-    }
-
-    IEnumerator PhaseCooldownTimer()
-    {
-        yield return new WaitForSeconds(phaseCooldown);
-        canPhase = true;
-    }
-
-
-    IEnumerator PhaseEndTimer()
-    {
-        yield return new WaitForSeconds(phaseMaxDuration);
-        anim.Play("RiftExit");
     }
 
 
