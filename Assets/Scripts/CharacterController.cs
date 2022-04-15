@@ -124,7 +124,7 @@ public class CharacterController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && !phasing)  // Jump 
-        { 
+        {
             if (canWallJump)
             {
                 float horiVel = facingLeft ? jumpHeight / 2 : -jumpHeight / 2;
@@ -246,6 +246,7 @@ public class CharacterController : MonoBehaviour
         phasing = false;
         rb.gravityScale = gravscale;
         boxCollider.enabled = true;
+        moveSpeed -= 20;
         globalPostProcess.WhiteShift();
         StartCoroutine(PhaseCooldownTimer());
     }
@@ -287,9 +288,10 @@ public class CharacterController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("NotObstruction")) return;
+        if (!collision.collider.CompareTag("Jumpable")) return;
         if (moveSpeed > 5.5f) moveSpeed -= collisionPenalty;
         else moveSpeed = 5.5f;
+        canWallJump = true;
         collisionPenalty += 0.002f;
     }
     private void OnCollisionExit2D(Collision2D collision)

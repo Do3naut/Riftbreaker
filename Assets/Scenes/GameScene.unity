@@ -1634,7 +1634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: 8249b2971fcbcd8419fb78a7b16711b7, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: 8249b2971fcbcd8419fb78a7b16711b7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2496,9 +2496,9 @@ MonoBehaviour:
   speedCap: 50
   teleportDistance: 5
   passiveAcceleration: 5
-  teleportSpeedCost: 5
+  teleportSpeedCost: 2
   teleportScaleFactor: 0.3
-  bulletTimeSpeedCost: 5
+  bulletTimeSpeedCost: 2
   bulletTimeScaleFactor: 0.01
   scaleDecreaseRate: 1
   deathTimerStart: 30
@@ -2604,9 +2604,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stages:
+  - {fileID: 8055203855853171155, guid: 7eea6a253599d1147abed8f6a78c1587, type: 3}
   - {fileID: 8055203855853171155, guid: c6b1561eb90c49443a0e4fa8951fce05, type: 3}
   - {fileID: 8055203855853171155, guid: 1f28876e51dd3404888d42b8b883caa2, type: 3}
   - {fileID: 8055203855853171155, guid: 8249b2971fcbcd8419fb78a7b16711b7, type: 3}
+  - {fileID: 8055203855853171155, guid: 45bba408430593547978e848cd007c2e, type: 3}
+  - {fileID: 8055203855853171155, guid: 2a9b4e37e90b27d4e80b2899349f517f, type: 3}
+  - {fileID: 8055203855853171155, guid: 1354c9295e65cda438117042348dbc22, type: 3}
 --- !u!50 &1267972935
 Rigidbody2D:
   serializedVersion: 4
@@ -2792,7 +2796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: c6b1561eb90c49443a0e4fa8951fce05, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: c6b1561eb90c49443a0e4fa8951fce05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3056,7 +3060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: 1354c9295e65cda438117042348dbc22, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8055203855853171156, guid: 1354c9295e65cda438117042348dbc22, type: 3}
       propertyPath: m_LocalPosition.x
