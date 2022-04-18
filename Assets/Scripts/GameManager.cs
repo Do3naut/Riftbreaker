@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     {
     }
 
+    // TODO: Use properties
+
     public float GetSpeed() { return speedScore; }
     
     public void SetSpeed(float targ) { speedScore = targ; }

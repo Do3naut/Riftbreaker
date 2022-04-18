@@ -143,10 +143,10 @@ public class CharacterController : MonoBehaviour
                 // levelRb.velocity = Vector2.zero;
                 if (rb.velocity.y < 0)
                     rb.velocity = Vector2.zero;
-                levelRb.AddForce(new Vector2(horiVel, 0), ForceMode2D.Impulse); // Wall jump
-                rb.AddForce(new Vector2(0, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump
-                moveSpeed += 0.5f;
-                facingLeft = !facingLeft;
+                levelRb.AddForce(new Vector2(horiVel, 0), ForceMode2D.Impulse); // Wall jump - x direction
+                rb.AddForce(new Vector2(0, jumpHeight / 2), ForceMode2D.Impulse); // Wall jump - y direction
+                moveSpeed += 0.5f;  // Little speed boost as a bonus
+                facingLeft = !facingLeft;  // Reverse direction
                 canWallJump = false;
                 jumpSound.Play();
             } else if (IsGrounded())
@@ -338,10 +338,10 @@ public class CharacterController : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (!collision.collider.CompareTag("Jumpable")) return;
-        if (moveSpeed > 5.5f) moveSpeed -= collisionPenalty;
+        if (moveSpeed > 5.5f) moveSpeed -= collisionPenalty * Time.deltaTime;  // Test 
         else moveSpeed = 5.5f;
         canWallJump = true;
-        collisionPenalty += 0.002f;
+        collisionPenalty += 0.002f * Time.deltaTime;
     }
 
     // Called once when the 2 colliders part

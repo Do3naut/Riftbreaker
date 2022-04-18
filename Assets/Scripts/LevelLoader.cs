@@ -34,6 +34,7 @@ public class LevelLoader : MonoBehaviour
         - instantiate rightSect,
         - set position 
         O(undefined) complexity; probably bad but looks nice. Sorry Carey.
+        Possible optimization: using object pooling to prevent the Instantiate() function from being called constantly
          */
         if (transform.position.x <= -127f)
         {
